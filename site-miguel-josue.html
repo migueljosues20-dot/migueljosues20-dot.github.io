@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miguel Josué — Desenvolvedor de Sites e Criador de E-books</title>
+<meta name="description" content="Sites para comércios locais e e-books personalizados. Fale com Miguel Josué.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #F2ECDA;
+    --cream-2: #EAE2C8;
+    --line: #CBBE93;
+    --forest: #1E3D2F;
+    --forest-2: #163024;
+    --mustard: #D6A419;
+    --mustard-dark: #B5860F;
+    --rust: #A63D2C;
+    --charcoal: #2B2620;
+    --paper-shadow: rgba(30, 61, 47, 0.12);
+    --max-w: 1080px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .display{
+    font-family: 'Bricolage Grotesque', sans-serif;
+    color: var(--forest);
+    margin: 0;
+  }
+
+  a{ color: inherit; }
+
+  .wrap{
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- Skip link / focus ---------- */
+  a:focus-visible, button:focus-visible{
+    outline: 3px solid var(--mustard-dark);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--cream);
+    border-bottom: 2px solid var(--forest);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: 18px 28px;
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+  .brand{
+    font-family:'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--forest);
+    text-decoration:none;
+    letter-spacing: -0.01em;
+  }
+  .brand span{ color: var(--rust); }
+  .nav-links{
+    display:flex;
+    gap: 30px;
+    list-style:none;
+    margin:0; padding:0;
+  }
+  .nav-links a{
+    text-decoration:none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--forest);
+    position: relative;
+    padding-bottom: 3px;
+  }
+  .nav-links a::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:-2px;
+    height: 2px;
+    background: var(--mustard);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .nav-links a:hover::after{ transform: scaleX(1); }
+  .nav-cta{
+    background: var(--forest);
+    color: var(--cream) !important;
+    padding: 9px 18px;
+    border-radius: 3px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .nav-cta:hover{ background: var(--forest-2); }
+  .menu-toggle{ display:none; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 90px 0 70px;
+    border-bottom: 2px solid var(--forest);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 40px;
+    align-items: end;
+  }
+  .eyebrow{
+    font-size: 0.95rem;
+    color: var(--rust);
+    font-weight: 600;
+    margin-bottom: 14px;
+    opacity: 0;
+    animation: rise 0.7s ease forwards;
+  }
+  h1.hero-title{
+    font-size: clamp(2.6rem, 5.4vw, 4.4rem);
+    line-height: 0.98;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: rise 0.8s ease 0.08s forwards;
+  }
+  .hero-role{
+    font-size: clamp(1.15rem, 1.9vw, 1.5rem);
+    color: var(--charcoal);
+    margin-top: 18px;
+    max-width: 46ch;
+    font-weight: 500;
+    opacity: 0;
+    animation: rise 0.8s ease 0.18s forwards;
+  }
+  .hero-cta-row{
+    margin-top: 32px;
+    display:flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: rise 0.8s ease 0.28s forwards;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap: 9px;
+    padding: 13px 24px;
+    border-radius: 3px;
+    text-decoration:none;
+    font-weight: 600;
+    font-size: 0.98rem;
+    border: 2px solid transparent;
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+  .btn-primary{
+    background: var(--mustard);
+    color: var(--forest-2);
+  }
+  .btn-primary:hover{ background: var(--mustard-dark); transform: translateY(-1px); }
+  .btn-outline{
+    border-color: var(--forest);
+    color: var(--forest);
+  }
+  .btn-outline:hover{ background: var(--forest); color: var(--cream); }
+
+  @keyframes rise{
+    from{ opacity:0; transform: translateY(14px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+
+  .hero-panel{
+    background: var(--forest);
+    color: var(--cream);
+    padding: 30px 26px;
+    border-radius: 4px;
+    box-shadow: 6px 6px 0 var(--mustard);
+  }
+  .hero-panel p{
+    margin: 0 0 10px;
+    font-size: 0.92rem;
+    color: #D8E4DC;
+  }
+  .hero-panel .big-num{
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: var(--mustard);
+    line-height: 1;
+  }
+  .hero-panel-list{
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 16px 0 0;
+    border-top: 1px solid rgba(242,236,218,0.25);
+  }
+  .hero-panel-list li{
+    font-size: 0.92rem;
+    padding: 5px 0;
+    color: #E7EEE9;
+  }
+
+  /* ---------- Section titles ---------- */
+  .section{
+    padding: 76px 0;
+    border-bottom: 2px solid var(--forest);
+  }
+  .section:last-of-type{ border-bottom: none; }
+  .section-head{
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 44px;
+    flex-wrap: wrap;
+  }
+  .section-head h2{
+    font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .section-head p{
+    max-width: 40ch;
+    color: #4B4438;
+    margin: 0;
+  }
+
+  /* ---------- Serviços: menu board ---------- */
+  .menu-board{
+    border-top: 2px solid var(--forest);
+  }
+  .menu-item{
+    display:grid;
+    grid-template-columns: 40px 1fr auto;
+    gap: 22px;
+    align-items: start;
+    padding: 26px 0;
+    border-bottom: 2px dashed var(--line);
+  }
+  .menu-item:last-child{ border-bottom: 2px solid var(--forest); }
+  .menu-icon{
+    width: 40px;
+    height: 40px;
+    color: var(--rust);
+  }
+  .menu-icon svg{ width:100%; height:100%; }
+  .menu-text h3{
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .menu-text p{
+    margin: 0;
+    color: #4B4438;
+    max-width: 62ch;
+  }
+  .menu-tag{
+    align-self: center;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--forest);
+    background: var(--cream-2);
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  /* ---------- Sobre ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+  .about-grid p{ margin: 0 0 18px; color: #3A3428; }
+  .about-grid p:last-child{ margin-bottom: 0; }
+  .steps{
+    list-style: none;
+    margin: 0; padding: 0;
+    counter-reset: step;
+  }
+  .steps li{
+    counter-increment: step;
+    display:grid;
+    grid-template-columns: 34px 1fr;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .steps li:last-child{ border-bottom: none; }
+  .steps li::before{
+    content: counter(step);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    color: var(--mustard-dark);
+    font-size: 1.1rem;
+  }
+  .steps h4{
+    margin: 0 0 3px;
+    font-size: 1.02rem;
+    color: var(--forest);
+    font-weight: 600;
+  }
+  .steps span{ color: #4B4438; font-size: 0.95rem; }
+
+  /* ---------- Contato ---------- */
+  .contact{
+    background: var(--forest);
+    color: var(--cream);
+  }
+  .contact .section-head h2{ color: var(--cream); }
+  .contact .section-head p{ color: #CBD9D1; }
+  .contact-grid{
+    display:grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 50px;
+    align-items: start;
+  }
+  .contact-lead{
+    font-size: 1.15rem;
+    max-width: 42ch;
+    color: #E5ECE6;
+  }
+  .contact-cards{
+    display:flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .contact-card{
+    display:flex;
+    align-items:center;
+    gap: 16px;
+    background: var(--forest-2);
+    border: 1px solid rgba(242,236,218,0.15);
+    padding: 20px 22px;
+    border-radius: 4px;
+    text-decoration:none;
+    color: var(--cream);
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+  .contact-card:hover{ background: #102019; transform: translateX(3px); }
+  .contact-card .ic{
+    width: 26px; height:26px;
+    color: var(--mustard);
+    flex-shrink:0;
+  }
+  .contact-card .ic svg{ width:100%; height:100%; }
+  .contact-card .label{
+    font-size: 0.78rem;
+    text-transform: none;
+    color: #9FB3A7;
+    margin-bottom: 2px;
+  }
+  .contact-card .value{
+    font-weight: 600;
+    font-size: 1.05rem;
+    font-family: 'Bricolage Grotesque', sans-serif;
+  }
+
+  footer{
+    background: var(--forest-2);
+    color: #9FB3A7;
+    text-align:center;
+    padding: 22px 0;
+    font-size: 0.85rem;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px){
+    .hero .wrap{ grid-template-columns: 1fr; }
+    .hero-panel{ order: -1; box-shadow: 4px 4px 0 var(--mustard); }
+    .about-grid{ grid-template-columns: 1fr; }
+    .contact-grid{ grid-template-columns: 1fr; }
+    .nav-links{
+      position:absolute;
+      top: 100%; left:0; right:0;
+      background: var(--cream);
+      border-bottom: 2px solid var(--forest);
+      flex-direction:column;
+      gap: 0;
+      display: none;
+      padding: 8px 0;
+    }
+    .nav-links.open{ display:flex; }
+    .nav-links a{ padding: 14px 28px; width:100%; }
+    .nav-links a::after{ display:none; }
+    .nav-links .nav-cta{ margin: 8px 28px; text-align:center; }
+    .menu-toggle{
+      display:inline-flex;
+      align-items:center; justify-content:center;
+      width: 38px; height: 38px;
+      background: none;
+      border: 2px solid var(--forest);
+      border-radius: 3px;
+      cursor:pointer;
+      color: var(--forest);
+    }
+  }
+
+  @media (max-width: 560px){
+    .menu-item{ grid-template-columns: 32px 1fr; }
+    .menu-tag{ grid-column: 2; margin-top: 6px; justify-self: start; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#top" class="brand">Miguel Josué<span>.dev</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#sobre">Como trabalho</a></li>
+      <li><a href="#contato" class="nav-cta">Contato</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Desenvolvedor de sites &amp; criador de e-books</p>
+        <h1 class="hero-title">Miguel Josué</h1>
+        <p class="hero-role">Transformo a ideia do seu negócio em um site que vende e em e-books que representam a sua marca — do primeiro rascunho até o ar.</p>
+        <div class="hero-cta-row">
+          <a class="btn btn-primary" href="https://wa.me/5561991317940" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.92 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.1c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.17-4.94-4.36-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.26-.28.58-.36.77-.36.2 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.15.31-.3.48-.14.17-.3.37-.43.5-.14.14-.29.29-.13.57.17.28.75 1.24 1.61 2.01 1.11 1 2.04 1.31 2.32 1.46.28.14.44.12.6-.07.17-.2.72-.83.91-1.12.19-.28.38-.23.64-.14.26.1 1.66.79 1.95.93.28.14.47.21.54.32.07.12.07.68-.17 1.36z"/></svg>
+            Chamar no WhatsApp
+          </a>
+          <a class="btn btn-outline" href="mailto:migueljosues20@gmail.com">Enviar e-mail</a>
+        </div>
+      </div>
+
+      <div class="hero-panel">
+        <p>Feito sob medida para</p>
+        <div class="big-num">Comércio local</div>
+        <ul class="hero-panel-list">
+          <li>Padarias e mercados</li>
+          <li>Pizzarias e restaurantes</li>
+          <li>Autônomos e pequenos negócios</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="servicos">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>O que eu faço</h2>
+        <p>Cada projeto começa com uma conversa sobre o seu negócio, não com um modelo pronto.</p>
+      </div>
+
+      <div class="menu-board">
+
+        <div class="menu-item">
+          <div class="menu-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9.5L12 3l9 6.5"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></svg>
+          </div>
+          <div class="menu-text">
+            <h3>Sites para o seu comércio</h3>
+            <p>Criação e desenvolvimento de sites para padarias, mercados, pizzarias e outros negócios locais — com cardápio, endereço, horários e contato em um só lugar.</p>
+          </div>
+          <span class="menu-tag">Sites</span>
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 9h18"/><path d="M8 14h8M8 17h5"/></svg>
+          </div>
+          <div class="menu-text">
+            <h3>Páginas de produtos e serviços</h3>
+            <p>Desenvolvimento de páginas modernas e organizadas para você divulgar o que vende, com fotos, preços e informações claras para o cliente.</p>
+          </div>
+          <span class="menu-tag">Divulgação</span>
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          </div>
+          <div class="menu-text">
+            <h3>E-books personalizados</h3>
+            <p>Criação e edição de e-books do zero — estrutura, texto e visual — adaptados ao público e ao objetivo de cada cliente.</p>
+          </div>
+          <span class="menu-tag">E-books</span>
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          </div>
+          <div class="menu-text">
+            <h3>Atendimento próximo do início ao fim</h3>
+            <p>Converso com você para entender a real necessidade do seu negócio e transformo essa conversa em um projeto digital que faz sentido pra você.</p>
+          </div>
+          <span class="menu-tag">Consultoria</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sobre">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Como eu trabalho</h2>
+        <p>Sem burocracia e sem enrolação — um processo simples do primeiro contato até a entrega.</p>
+      </div>
+
+      <div class="about-grid">
+        <div>
+          <p>Trabalho de perto com donos de padarias, mercados, pizzarias e outros pequenos negócios que precisam de presença digital, mas não têm tempo nem paciência para lidar com termos técnicos.</p>
+          <p>Meu papel é traduzir o que você já faz bem no seu negócio em um site ou e-book que representa isso com clareza — sem enrolação, sem modelo genérico, sem promessas que eu não vou cumprir.</p>
+          <p>Se você já sabe o que precisa ou só tem uma ideia solta na cabeça, dá pra começar a conversa do jeito que estiver mais fácil pra você.</p>
+        </div>
+
+        <ol class="steps">
+          <li><div><h4>Conversa inicial</h4><span>Você me conta sobre o negócio e o que precisa — por WhatsApp ou e-mail.</span></div></li>
+          <li><div><h4>Proposta e prazo</h4><span>Eu retorno com um plano simples: o que será feito, prazo e valor.</span></div></li>
+          <li><div><h4>Criação</h4><span>Desenvolvo o site ou e-book te mostrando o andamento pelo caminho.</span></div></li>
+          <li><div><h4>Ajustes e entrega</h4><span>Revisamos juntos até ficar do jeito certo, e eu entrego pronto pra uso.</span></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact" id="contato">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Vamos conversar sobre seu projeto?</h2>
+      </div>
+
+      <div class="contact-grid">
+        <p class="contact-lead">Me manda uma mensagem contando um pouco sobre o seu negócio ou sua ideia de e-book. Eu respondo rápido e a gente já começa a alinhar os próximos passos.</p>
+
+        <div class="contact-cards">
+          <a class="contact-card" href="https://wa.me/5561991317940" target="_blank" rel="noopener">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.92 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.1c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.17-4.94-4.36-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.26-.28.58-.36.77-.36.2 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.15.31-.3.48-.14.17-.3.37-.43.5-.14.14-.29.29-.13.57.17.28.75 1.24 1.61 2.01 1.11 1 2.04 1.31 2.32 1.46.28.14.44.12.6-.07.17-.2.72-.83.91-1.12.19-.28.38-.23.64-.14.26.1 1.66.79 1.95.93.28.14.47.21.54.32.07.12.07.68-.17 1.36z"/></svg></span>
+            <span><span class="label">WhatsApp</span><br><span class="value">(61) 99131-7940</span></span>
+          </a>
+
+          <a class="contact-card" href="mailto:migueljosues20@gmail.com">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+            <span><span class="label">E-mail</span><br><span class="value">migueljosues20@gmail.com</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Miguel Josué — Desenvolvedor de Sites e Criador de E-books
+</footer>
+
+<script>
+  const toggle = document.getElementById('menuToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => {
+    const isOpen = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen);
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open');
+    toggle.setAttribute('aria-expanded', false);
+  }));
+</script>
+
+</body>
+</html>
