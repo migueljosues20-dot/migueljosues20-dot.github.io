@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC Gamer do Zero — O Guia Definitivo para Montar Seu PC</title>
+<meta name="description" content="Aprenda a montar seu computador gamer do zero, mesmo sem experiência nenhuma. Guia completo em português, direto ao ponto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #101815;
+    --bg-2: #0B120F;
+    --panel: #16211C;
+    --panel-2: #1C2A23;
+    --line: #2B3A32;
+    --copper: #C97C3D;
+    --copper-light: #E3A868;
+    --trace: #4C7A5E;
+    --paper: #F1EDE1;
+    --text: #E6E4D8;
+    --text-dim: #93A398;
+    --text-dimmer: #6B7A70;
+    --max-w: 1120px;
+  }
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--paper);
+    margin: 0;
+  }
+  a{ color: inherit; }
+  .wrap{ max-width: var(--max-w); margin: 0 auto; padding: 0 28px; }
+  a:focus-visible, button:focus-visible{ outline: 3px solid var(--copper-light); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  /* faint circuit backdrop */
+  .circuit-bg{
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    opacity: 0.35;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, black 0%, transparent 70%);
+            mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, black 0%, transparent 70%);
+  }
+
+  header{
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(16,24,21,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav{ display:flex; align-items:center; justify-content:space-between; padding: 16px 28px; max-width: var(--max-w); margin: 0 auto; }
+  .brand{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.05rem; color: var(--paper); text-decoration:none; display:flex; align-items:center; gap:9px;}
+  .brand .dot{ width:9px; height:9px; background: var(--copper); border-radius:1px; display:inline-block; }
+  .nav-cta{
+    background: var(--copper); color: var(--bg-2); text-decoration:none;
+    padding: 10px 18px; border-radius: 3px; font-weight:600; font-size:0.92rem;
+  }
+  .nav-cta:hover{ background: var(--copper-light); }
+
+  main{ position:relative; z-index:1; }
+
+  /* ---------- Hero ---------- */
+  .hero{ padding: 78px 0 70px; border-bottom: 1px solid var(--line); }
+  .hero .wrap{ display:grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items:center; }
+  .kicker{ color: var(--copper-light); font-weight:600; font-size:0.92rem; margin-bottom:16px; }
+  .hero h1{ font-size: clamp(2.1rem, 4vw, 3.1rem); line-height:1.08; font-weight:700; letter-spacing:-0.01em; }
+  .hero .sub{ margin-top: 18px; color: var(--text-dim); font-size: 1.08rem; max-width: 50ch; }
+  .price-row{ display:flex; align-items:baseline; gap:12px; margin-top:28px; }
+  .price-old{ color: var(--text-dimmer); text-decoration: line-through; font-size:1.05rem; }
+  .price-new{ font-family:'Space Grotesk',sans-serif; font-size:2.1rem; font-weight:700; color: var(--copper-light); }
+  .price-note{ color: var(--text-dimmer); font-size:0.85rem; }
+  .cta-row{ display:flex; gap:14px; flex-wrap:wrap; margin-top: 26px; }
+  .btn{ display:inline-flex; align-items:center; gap:9px; padding: 14px 26px; border-radius:3px; text-decoration:none; font-weight:600; font-size:0.98rem; border: 1px solid transparent; transition: transform .15s ease, background .2s ease;}
+  .btn-primary{ background: var(--copper); color: var(--bg-2); }
+  .btn-primary:hover{ background: var(--copper-light); transform: translateY(-1px); }
+  .btn-ghost{ border-color: var(--line); color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--copper); color: var(--copper-light); }
+  .trust-row{ margin-top:22px; display:flex; gap:20px; flex-wrap:wrap; color: var(--text-dimmer); font-size:0.86rem; }
+  .trust-row span{ display:flex; align-items:center; gap:7px; }
+  .trust-row svg{ width:15px; height:15px; color: var(--trace); flex-shrink:0; }
+
+  /* book mockup */
+  .book{
+    position: relative;
+    background: linear-gradient(160deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 34px 28px;
+    box-shadow: 10px 10px 0 rgba(201,124,61,0.14);
+  }
+  .book::before{
+    content:"";
+    position:absolute; inset: 10px;
+    border: 1px dashed rgba(201,124,61,0.35);
+    border-radius: 4px;
+    pointer-events:none;
+  }
+  .book-eyebrow{ font-size:0.75rem; color: var(--copper-light); letter-spacing:0.02em; margin-bottom: 14px; }
+  .book-title{ font-family:'Space Grotesk',sans-serif; font-size:1.7rem; font-weight:700; color: var(--paper); line-height:1.15; }
+  .book-sub{ margin-top:10px; color: var(--text-dim); font-size:0.92rem; line-height:1.5; }
+  .book-meta{ margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); display:flex; justify-content:space-between; font-size:0.82rem; color: var(--text-dimmer); }
+
+  /* ---------- Sections ---------- */
+  .section{ padding: 70px 0; border-bottom: 1px solid var(--line); }
+  .section:last-of-type{ border-bottom:none; }
+  .section-head{ margin-bottom: 40px; max-width: 62ch; }
+  .section-head .kicker{ margin-bottom: 10px; }
+  .section-head h2{ font-size: clamp(1.6rem, 2.8vw, 2.2rem); font-weight:700; letter-spacing:-0.01em; }
+  .section-head p{ margin-top:12px; color: var(--text-dim); }
+
+  /* benefits */
+  .benefits{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 0; border-top:1px solid var(--line); border-left:1px solid var(--line); }
+  .benefit{ padding: 24px 26px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); display:flex; gap:14px; }
+  .benefit .node{ width:8px; height:8px; margin-top:8px; background: var(--copper); border-radius:1px; flex-shrink:0; }
+  .benefit h4{ font-size:1rem; font-weight:600; color: var(--paper); margin-bottom:4px; }
+  .benefit p{ margin:0; color: var(--text-dim); font-size:0.93rem; }
+
+  /* preview / locked excerpt */
+  .preview-frame{
+    position: relative;
+    background: var(--paper);
+    color: #2B2620;
+    border-radius: 5px;
+    padding: 40px 44px 0;
+    overflow: hidden;
+    max-height: 360px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  }
+  .preview-frame h3{ color:#1E3D2F; font-family:'Space Grotesk',sans-serif; font-size:1.3rem; margin-bottom:14px; }
+  .preview-frame p{ color:#3A3428; margin: 0 0 16px; font-size:0.98rem; }
+  .preview-fade{
+    position:absolute; left:0; right:0; bottom:0; height:200px;
+    background: linear-gradient(to bottom, rgba(241,237,225,0) 0%, rgba(241,237,225,0.94) 65%, var(--paper) 100%);
+    display:flex; align-items:flex-end; justify-content:center; padding-bottom: 26px;
+  }
+  .lock-pill{
+    display:flex; align-items:center; gap:10px;
+    background: var(--bg-2); color: var(--paper);
+    border: 1px solid var(--copper);
+    padding: 12px 20px; border-radius: 999px; font-size:0.88rem; font-weight:600;
+  }
+  .lock-pill svg{ width:16px; height:16px; color: var(--copper-light); }
+  .preview-caption{ margin-top:18px; text-align:center; color: var(--text-dimmer); font-size:0.85rem; }
+
+  /* TOC */
+  .toc{ counter-reset: chapter; }
+  .toc-item{
+    counter-increment: chapter;
+    display:grid; grid-template-columns: 46px 1fr;
+    gap: 18px; padding: 15px 0; border-bottom: 1px solid var(--line);
+    align-items:baseline;
+  }
+  .toc-item:first-child{ border-top: 1px solid var(--line); }
+  .toc-item::before{
+    content: counter(chapter, decimal-leading-zero);
+    font-family:'Space Grotesk',sans-serif;
+    color: var(--copper);
+    font-weight:600;
+    font-size:0.95rem;
+  }
+  .toc-item h4{ margin:0; font-size:1rem; font-weight:500; color: var(--text); }
+  .toc-note{ margin-top:22px; color: var(--text-dimmer); font-size:0.88rem; }
+
+  /* for whom */
+  .audience{ display:grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .audience-col h3{ font-size:1.05rem; font-weight:600; margin-bottom:16px; }
+  .audience-col.yes h3{ color: var(--trace); }
+  .audience-col.no h3{ color: #A6624A; }
+  .audience-col ul{ list-style:none; margin:0; padding:0; }
+  .audience-col li{ padding: 10px 0; border-bottom:1px solid var(--line); color: var(--text-dim); font-size:0.95rem; display:flex; gap:10px; }
+  .audience-col li svg{ width:16px; height:16px; flex-shrink:0; margin-top:3px; }
+  .audience-col.yes li svg{ color: var(--trace); }
+  .audience-col.no li svg{ color:#A6624A; }
+
+  /* pricing */
+  .pricing-card{
+    background: linear-gradient(160deg, var(--panel-2), var(--panel));
+    border:1px solid var(--line); border-radius:6px;
+    padding: 42px; display:grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items:center;
+  }
+  .pricing-card ul{ list-style:none; margin: 18px 0 0; padding:0; }
+  .pricing-card li{ padding: 8px 0; color: var(--text-dim); font-size:0.95rem; display:flex; gap:10px; align-items:flex-start;}
+  .pricing-card li svg{ width:16px; height:16px; color: var(--trace); margin-top:3px; flex-shrink:0; }
+  .pricing-box{ text-align:center; background: var(--bg-2); border:1px solid var(--line); border-radius:5px; padding: 30px 20px; }
+  .pricing-box .price-new{ font-size:2.6rem; }
+  .pricing-box .btn{ width:100%; justify-content:center; margin-top:18px; }
+  .pricing-box .price-note{ margin-top:10px; }
+
+  /* faq */
+  .faq-item{ border-bottom:1px solid var(--line); padding: 20px 0; }
+  .faq-item h4{ font-size:1rem; font-weight:600; color: var(--paper); margin-bottom:8px; }
+  .faq-item p{ margin:0; color: var(--text-dim); font-size:0.94rem; }
+
+  footer{ background: var(--bg-2); padding: 34px 0; text-align:center; color: var(--text-dimmer); font-size:0.85rem; position:relative; z-index:1; }
+  footer a{ color: var(--copper-light); text-decoration:none; }
+
+  @media (max-width: 900px){
+    .hero .wrap{ grid-template-columns: 1fr; }
+    .book{ order:-1; }
+    .benefits{ grid-template-columns: 1fr; }
+    .audience{ grid-template-columns: 1fr; }
+    .pricing-card{ grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px){
+    .preview-frame{ padding: 28px 22px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="circuit-bg"></div>
+
+<header>
+  <nav class="nav">
+    <a href="#top" class="brand"><span class="dot"></span>PC Gamer do Zero</a>
+    <a class="nav-cta" href="#comprar">Garantir o ebook</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="kicker">Ebook digital · PDF/Word · em português</p>
+        <h1>Monte seu próprio PC gamer, do zero, sem pagar caro por mão de obra e sem comprar peça errada.</h1>
+        <p class="sub">Um guia direto ao ponto que explica cada peça do computador em linguagem simples, com 3 configurações prontas por orçamento e o passo a passo completo de montagem — mesmo que você nunca tenha aberto um gabinete na vida.</p>
+
+        <div class="price-row">
+          <span class="price-old">R$ 47,00</span>
+          <span class="price-new">R$ 29,90</span>
+        </div>
+        <p class="price-note">Pagamento único · acesso imediato após a confirmação</p>
+
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#comprar">Quero o ebook completo</a>
+          <a class="btn btn-ghost" href="#previa">Ver prévia grátis</a>
+        </div>
+
+        <div class="trust-row">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>14 capítulos + passo a passo</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Linguagem simples, sem termos técnicos soltos</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Leia no celular, tablet ou PC</span>
+        </div>
+      </div>
+
+      <div class="book">
+        <p class="book-eyebrow">CAPA DO EBOOK</p>
+        <p class="book-title">PC Gamer do Zero</p>
+        <p class="book-sub">O guia definitivo para montar seu próprio computador gamer, passo a passo, mesmo sem nenhuma experiência.</p>
+        <div class="book-meta">
+          <span>14 capítulos</span>
+          <span>Formato digital</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="conteudo">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">O que você vai aprender</p>
+        <h2>Tudo que você precisa saber antes de gastar um centavo em peça</h2>
+        <p>Sem enrolação: cada capítulo resolve uma dúvida real de quem está montando o primeiro PC.</p>
+      </div>
+
+      <div class="benefits">
+        <div class="benefit"><span class="node"></span><div><h4>O papel de cada peça</h4><p>Processador, placa de vídeo, RAM, armazenamento, placa-mãe, fonte, gabinete e refrigeração — explicados sem jargão.</p></div></div>
+        <div class="benefit"><span class="node"></span><div><h4>3 configurações prontas</h4><p>Entrada, intermediária e alto desempenho, para você escolher pelo seu orçamento sem precisar virar especialista.</p></div></div>
+        <div class="benefit"><span class="node"></span><div><h4>Passo a passo de montagem</h4><p>Do encaixe do processador até ligar o PC pela primeira vez, em ordem, sem pular etapa.</p></div></div>
+        <div class="benefit"><span class="node"></span><div><h4>Instalação e testes</h4><p>Como instalar o Windows, os drivers certos e testar se está tudo funcionando como deveria.</p></div></div>
+        <div class="benefit"><span class="node"></span><div><h4>Erros que custam caro</h4><p>As furadas mais comuns de quem está começando — e como não cair em nenhuma delas.</p></div></div>
+        <div class="benefit"><span class="node"></span><div><h4>Manutenção de verdade</h4><p>O que fazer para o seu PC continuar rodando bem daqui a 2, 3, 5 anos.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="previa">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Prévia exclusiva</p>
+        <h2>Um gostinho do que te espera na Introdução</h2>
+        <p>Esse é um trecho real do começo do ebook. O restante do capítulo — e os outros 14 — ficam liberados na versão completa.</p>
+      </div>
+
+      <div class="preview-frame">
+        <h3>Introdução — Por que montar seu próprio PC gamer?</h3>
+        <p>Se você chegou até aqui, provavelmente já pensou: "será que eu consigo montar meu próprio computador gamer?". A resposta é sim. Você não precisa ser técnico em informática, nem entender de eletrônica.</p>
+        <p>Montar um PC é muito parecido com montar um brinquedo de Lego: cada peça encaixa em um lugar específico, e é praticamente impossível errar se você seguir a ordem certa...</p>
+        <div class="preview-fade">
+          <div class="lock-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+            Continue lendo na versão completa
+          </div>
+        </div>
+      </div>
+      <p class="preview-caption">Essa é só a primeira metade da Introdução. Faltam 14 capítulos inteiros.</p>
+    </div>
+  </section>
+
+  <section class="section" id="sumario">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Sumário completo</p>
+        <h2>O caminho do ebook, capítulo por capítulo</h2>
+      </div>
+
+      <div class="toc">
+        <div class="toc-item"><h4>Entendendo as Peças: Visão Geral do Computador</h4></div>
+        <div class="toc-item"><h4>Processador (CPU): O Cérebro da Máquina</h4></div>
+        <div class="toc-item"><h4>Placa de Vídeo (GPU): O Coração dos Games</h4></div>
+        <div class="toc-item"><h4>Memória RAM: Fluidez e Multitarefa</h4></div>
+        <div class="toc-item"><h4>Armazenamento: HD, SSD e NVMe</h4></div>
+        <div class="toc-item"><h4>Placa-mãe: A Base de Tudo</h4></div>
+        <div class="toc-item"><h4>Fonte de Alimentação (PSU): Não Economize Aqui</h4></div>
+        <div class="toc-item"><h4>Gabinete e Refrigeração</h4></div>
+        <div class="toc-item"><h4>Três Configurações Prontas por Orçamento</h4></div>
+        <div class="toc-item"><h4>Passo a Passo: Montando o PC na Prática</h4></div>
+        <div class="toc-item"><h4>Instalando o Sistema Operacional e Drivers</h4></div>
+        <div class="toc-item"><h4>Testando, Otimizando e Fazendo Overclock Básico</h4></div>
+        <div class="toc-item"><h4>Erros Comuns (e Como Não Cair Neles)</h4></div>
+        <div class="toc-item"><h4>Manutenção: Fazendo seu PC Durar Anos</h4></div>
+      </div>
+      <p class="toc-note">+ Introdução e Conclusão com o resumo de todo o caminho.</p>
+    </div>
+  </section>
+
+  <section class="section" id="para-quem">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Esse ebook é pra você?</p>
+        <h2>Vamos ser diretos sobre isso</h2>
+      </div>
+
+      <div class="audience">
+        <div class="audience-col yes">
+          <h3>Feito para você, se:</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Você nunca montou um PC e quer aprender do absoluto zero.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Você quer economizar não pagando por montagem de terceiros.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Você já tem um orçamento definido e quer saber onde gastar.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Você quer entender o PC que vai comprar, não só apertar o botão.</li>
+          </ul>
+        </div>
+        <div class="audience-col no">
+          <h3>Não é pra você, se:</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Você já monta PCs profissionalmente há anos.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Você procura overclock avançado e configurações extremas.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>Você quer um review de modelos específicos do mercado.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="comprar">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Garantir o ebook</p>
+        <h2>Tudo isso por um preço menor que uma pizza</h2>
+      </div>
+
+      <div class="pricing-card">
+        <div>
+          <h3 style="font-size:1.2rem; font-weight:600; color:var(--paper); margin-bottom:6px;">O que está incluído</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Ebook completo "PC Gamer do Zero", 14 capítulos + introdução e conclusão</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>3 configurações prontas por orçamento (entrada, intermediária, alto desempenho)</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Passo a passo completo de montagem e instalação do sistema</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Acesso imediato após a confirmação do pagamento</li>
+          </ul>
+        </div>
+        <div class="pricing-box">
+          <div class="price-old">R$ 47,00</div>
+          <div class="price-new">R$ 29,90</div>
+          <a class="btn btn-primary" href="https://wa.me/5561991317940?text=Ol%C3%A1!%20Quero%20garantir%20o%20ebook%20PC%20Gamer%20do%20Zero" target="_blank" rel="noopener">Quero garantir o meu</a>
+          <p class="price-note">Pagamento único · sem mensalidade</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Dúvidas frequentes</p>
+        <h2>Antes de você perguntar</h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <h4>Em que formato eu recebo o ebook?</h4>
+          <p>Você recebe o arquivo digital para ler no computador, tablet ou celular, sem necessidade de aparelho específico.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Preciso entender de tecnologia para acompanhar?</h4>
+          <p>Não. O ebook foi escrito para quem nunca montou um computador na vida, com linguagem simples do início ao fim.</p>
+        </div>
+        <div class="faq-item">
+          <h4>O ebook indica marcas e modelos específicos?</h4>
+          <p>Ele ensina como escolher cada peça e quanto investir em cada uma, já que modelos e preços mudam com frequência no mercado.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Como recebo o material após comprar?</h4>
+          <p>Fale pelo WhatsApp ou e-mail abaixo para confirmar o pagamento e receber o ebook diretamente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  PC Gamer do Zero — Ebook digital · Dúvidas ou compra: <a href="https://wa.me/5561991317940" target="_blank" rel="noopener">WhatsApp (61) 99131-7940</a> · <a href="mailto:migueljosues20@gmail.com">migueljosues20@gmail.com</a>
+</footer>
+
+</body>
+</html>
